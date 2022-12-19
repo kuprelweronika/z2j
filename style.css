@@ -1,0 +1,19 @@
+li {
+  display: inline;
+}
+
+a:hover {
+  color: red;
+}
+
+nav {
+  background-color: bisque;
+}
+
+main {
+  background-color: aqua;
+}
+
+main ~ footer {
+  background-color: cadetblue;
+}
