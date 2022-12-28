@@ -1,19 +1,33 @@
-li {
-  display: inline;
+body {
+  background-color: #8bc34a;
+  display: flex;
+  flex-shrink: 0;
 }
 
-a:hover {
-  color: red;
+html {
+  font-size: large;
 }
-
-nav {
-  background-color: bisque;
-}
-
 main {
-  background-color: aqua;
+  display: flex;
+  flex-grow: 1;
 }
 
-main ~ footer {
-  background-color: cadetblue;
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 0.5rem;
+  border-style: solid;
+  border-color: #a42e2b;
+  margin: 0.5rem;
+  padding: 1rem;
+  background-color: #b97a5c;
+}
+
+.title {
+  align-self: center;
+}
+
+textarea {
+  background-color: #b97a5c;
+  flex-wrap: wrap;
 }
