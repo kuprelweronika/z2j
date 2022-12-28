@@ -1,7 +1,7 @@
 body {
   background-color: #8bc34a;
   display: flex;
-  flex-shrink: 0;
+  flex-grow: 1;
 }
 
 html {
@@ -14,7 +14,7 @@ main {
 
 .card {
   display: flex;
-  flex-grow: 0;
+  flex-grow: 1;
   flex-direction: column;
   border: 0.5rem;
   border-style: solid;
@@ -22,6 +22,8 @@ main {
   margin: 0.5rem;
   padding: 1rem;
   background-color: #b97a5c;
+  align-items: baseline;
+  max-width: 320px;
 }
 
 .title {
