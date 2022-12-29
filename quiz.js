@@ -1,25 +1,29 @@
-let pierwsza = prompt("Podaj pierwszą liczbę");
+const firstNum = prompt("Podaj pierwszą liczbę");
 
-let znak = prompt("Podaj operator + - ( / lub %");
+const sym = prompt("Podaj operator + - ( / lub %");
 
-let druga = prompt("Podaj drugą liczbę");
+const secondNum = prompt("Podaj drugą liczbę");
 
-if (znak === "+") {
-  let wynik = alert(parseInt(pierwsza) + parseInt(druga));
+const num1 = parseFloat(firstNum);
+const num2 = parseFloat(secondNum);
+
+if (sym === "+") {
+  alert(num1 + num2);
 }
-if (znak === "-") {
-  let wynik = alert(parseInt(pierwsza) - parseInt(druga));
+if (sym === "-") {
+  alert(num1 - num2);
 }
 
-if (znak === "*") {
-  let wynik = alert(parseInt(pierwsza) * parseInt(druga));
+if (sym === "*") {
+  alert(num1 * num2);
 }
-if (znak === "/") {
-  if (druga === "0") {
+if (sym === "/") {
+  if (num2 === "0") {
     alert("Nie dziel przez zero cholero!");
-    alert(parseInt(pierwsza) / parseInt(druga));
+  } else {
+    alert(parseInt(num1) / parseInt(num2));
   }
 }
-if (znak === "%") {
-  let wynik = alert(parseInt(pierwsza) % parseInt(druga));
+if (sym === "%") {
+  alert(parseInt(num1) % parseInt(num2));
 }
