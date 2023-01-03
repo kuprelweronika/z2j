@@ -1,29 +1,58 @@
-const firstNum = prompt("Podaj pierwszą liczbę");
-
-const sym = prompt("Podaj operator + - ( / lub %");
-
-const secondNum = prompt("Podaj drugą liczbę");
-
-const num1 = parseFloat(firstNum);
-const num2 = parseFloat(secondNum);
-
-if (sym === "+") {
-  alert(num1 + num2);
-}
-if (sym === "-") {
-  alert(num1 - num2);
+function add(num1, num2) {
+  return num1 + num2;
 }
 
-if (sym === "*") {
-  alert(num1 * num2);
+function subtract(num1, num2) {
+  return (num1 = num1 - num2);
 }
-if (sym === "/") {
-  if (num2 === "0") {
-    alert("Nie dziel przez zero cholero!");
+
+function multiply(num1, num2) {
+  return (num1 = num1 * num2);
+}
+
+function divide(num1, num2) {
+  if (num2 === 0) {
+    alert("Nie dziel przez zero cholero");
   } else {
-    alert(parseInt(num1) / parseInt(num2));
+    return (num1 = num1 / num2);
   }
 }
-if (sym === "%") {
-  alert(parseInt(num1) % parseInt(num2));
+function mod(num1, num2) {
+  return (num1 = num1 % num2);
 }
+
+let num1 = parseFloat(prompt("Podaj pierwszą liczbę"));
+let sym = prompt("Podaj operator + - ( / lub %");
+do {
+  switch (sym) {
+    case "+":
+      num2 = parseFloat(prompt("Podaj drugą liczbę"));
+      alert((num1 = add(num1, num2)));
+      sym = prompt("Podaj operator + - ( / lub %");
+      break;
+    case "-":
+      num2 = parseFloat(prompt("Podaj drugą liczbę"));
+      alert((num1 = subtract(num1, num2)));
+      sym = prompt("Podaj operator + - ( / lub %");
+      break;
+    case "*":
+      num2 = parseFloat(prompt("Podaj drugą liczbę"));
+      alert(multiply(num1, num2));
+      sym = prompt("Podaj operator + - ( / lub %");
+
+      break;
+    case "/":
+      num2 = parseFloat(prompt("Podaj drugą liczbę"));
+
+      alert(divide(num1, num2));
+      sym = prompt("Podaj operator + - ( / lub %");
+
+      break;
+    case "%":
+      num2 = parseFloat(prompt("Podaj drugą liczbę"));
+
+      alert(mod(num1, num2));
+      sym = prompt("Podaj operator + - ( / lub %");
+      break;
+  }
+} while (sym !== "");
