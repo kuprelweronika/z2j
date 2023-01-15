@@ -27,7 +27,7 @@ function reset() {
     var reset = window.document.getElementById(i);
     reset.value = "";
     reset.innerHTML = "";
-    console.log(i);
+
     click = 1;
   }
 }
