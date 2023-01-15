@@ -1,33 +1,52 @@
-body {
-  background-color: #8bc34a;
-  display: flex;
-  flex-shrink: 0;
+.container {
+  display: grid;
+  grid-template-columns: 150px 150px 150px;
+  justify-content: center;
+  gap: 10px 0px;
+  counter-reset: counter;
 }
 
-html {
-  font-size: large;
-}
-main {
-  display: flex;
-  flex-grow: 1;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  border: 0.5rem;
-  border-style: solid;
-  border-color: #a42e2b;
-  margin: 0.5rem;
-  padding: 1rem;
-  background-color: #b97a5c;
+.btn {
+  border-radius: 20px;
+  height: 70px;
+  width: 120px;
+  border-color: grey;
+  box-shadow: 1px 1px;
 }
 
-.title {
-  align-self: center;
+.btn:hover {
+  background-color: gray;
+  color: white;
 }
 
-textarea {
-  background-color: #b97a5c;
-  flex-wrap: wrap;
+.row-1::before {
+  counter-increment: counter;
+  content: counter(counter) " ";
+}
+
+.row-2::before {
+  counter-increment: counter;
+  content: counter(counter, upper-roman) " ";
+}
+
+.row-3::before {
+  counter-increment: counter;
+  content: "[0" counter(counter) "] ";
+}
+
+.btn:active {
+  border-color: white;
+}
+.btn:nth-of-type(4) {
+  background-color: orange;
+}
+.btn:nth-of-type(4):hover {
+  background-color: green;
+}
+
+.btn:nth-of-type(9) {
+  background-color: greenyellow;
+}
+.btn:nth-of-type(9):hover {
+  background-color: blue;
 }
