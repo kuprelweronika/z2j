@@ -58,6 +58,9 @@ function checkWin() {
       document.getElementById(6).value === "X") ||
     (document.getElementById(3).value === "X" &&
       document.getElementById(6).value === "X" &&
+      document.getElementById(9).value === "X") ||
+    (document.getElementById(7).value === "X" &&
+      document.getElementById(8).value === "X" &&
       document.getElementById(9).value === "X")
   ) {
     alert("you win");
@@ -83,7 +86,10 @@ function checkWin() {
       document.getElementById(6).value === "O") ||
     (document.getElementById(3).value === "O" &&
       document.getElementById(6).value === "O" &&
-      document.getElementById(9).value === "O")
+      document.getElementById(9).value === "O") ||
+    (document.getElementById(7).value === "X" &&
+      document.getElementById(8).value === "X" &&
+      document.getElementById(9).value === "X")
   ) {
     alert("comp win");
     reset();
