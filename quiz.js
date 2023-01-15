@@ -1,8 +1,12 @@
 function clicked(id) {
   var btnUser = window.document.getElementById(id);
-  btnUser.value = "X";
-  btnUser.innerHTML = "X";
-  computerPlay();
+  if (btnUser.value.length > 0) {
+    alert("Pole zajęte!!! Wybierz inne!");
+  } else {
+    btnUser.value = "X";
+    btnUser.innerHTML = "X";
+    computerPlay();
+  }
 }
 click = 1;
 
@@ -34,28 +38,6 @@ function reset() {
 
 function checkWin() {
   if (
-    (document.getElementById(1).value === "O" &&
-      document.getElementById(2).value === "O" &&
-      document.getElementById(3).value === "O") ||
-    (document.getElementById(1).value === "O" &&
-      document.getElementById(4).value === "O" &&
-      document.getElementById(7).value === "O") ||
-    (document.getElementById(1).value === "O" &&
-      document.getElementById(5).value === "O" &&
-      document.getElementById(9).value === "O") ||
-    (document.getElementById(3).value === "O" &&
-      document.getElementById(5).value === "O" &&
-      document.getElementById(7).value === "O") ||
-    (document.getElementById(2).value === "O" &&
-      document.getElementById(5).value === "O" &&
-      document.getElementById(8).value === "O") ||
-    (document.getElementById(4).value === "O" &&
-      document.getElementById(5).value === "O" &&
-      document.getElementById(6).value === "O")
-  ) {
-    alert("comp win");
-    reset();
-  } else if (
     (document.getElementById(1).value === "X" &&
       document.getElementById(2).value === "X" &&
       document.getElementById(3).value === "X") ||
@@ -73,9 +55,37 @@ function checkWin() {
       document.getElementById(8).value === "X") ||
     (document.getElementById(4).value === "X" &&
       document.getElementById(5).value === "X" &&
-      document.getElementById(6).value === "X")
+      document.getElementById(6).value === "X") ||
+    (document.getElementById(3).value === "X" &&
+      document.getElementById(6).value === "X" &&
+      document.getElementById(9).value === "X")
   ) {
     alert("you win");
+    reset();
+  } else if (
+    (document.getElementById(1).value === "O" &&
+      document.getElementById(2).value === "O" &&
+      document.getElementById(3).value === "O") ||
+    (document.getElementById(1).value === "O" &&
+      document.getElementById(4).value === "O" &&
+      document.getElementById(7).value === "O") ||
+    (document.getElementById(1).value === "O" &&
+      document.getElementById(5).value === "O" &&
+      document.getElementById(9).value === "O") ||
+    (document.getElementById(3).value === "O" &&
+      document.getElementById(5).value === "O" &&
+      document.getElementById(7).value === "O") ||
+    (document.getElementById(2).value === "O" &&
+      document.getElementById(5).value === "O" &&
+      document.getElementById(8).value === "O") ||
+    (document.getElementById(4).value === "O" &&
+      document.getElementById(5).value === "O" &&
+      document.getElementById(6).value === "O") ||
+    (document.getElementById(3).value === "O" &&
+      document.getElementById(6).value === "O" &&
+      document.getElementById(9).value === "O")
+  ) {
+    alert("comp win");
     reset();
   } else {
   }
