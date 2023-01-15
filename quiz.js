@@ -1,58 +1,82 @@
-function add(num1, num2) {
-  return num1 + num2;
+function clicked(id) {
+  var btnUser = window.document.getElementById(id);
+  btnUser.value = "X";
+  btnUser.innerHTML = "X";
+  computerPlay();
+}
+click = 1;
+
+function computerPlay() {
+  while (click < 9) {
+    btnComp = window.document.getElementById(click);
+
+    if (btnComp?.value.length > 0) {
+      click++;
+    } else {
+      btnComp.value = "O";
+      btnComp.innerHTML = "O";
+      click++;
+      break;
+    }
+  }
+  checkWin();
 }
 
-function subtract(num1, num2) {
-  return num1 - num2;
+function reset() {
+  for (let i = 1; i < 10; i++) {
+    var reset = window.document.getElementById(i);
+    reset.value = "";
+    reset.innerHTML = "";
+    console.log(i);
+    click = 1;
+  }
 }
 
-function multiply(num1, num2) {
-  return num1 * num2;
-}
-
-function divide(num1, num2) {
-  if (num2 === 0) {
-    alert("Nie dziel przez zero cholero");
+function checkWin() {
+  if (
+    (document.getElementById(1).value === "O" &&
+      document.getElementById(2).value === "O" &&
+      document.getElementById(3).value === "O") ||
+    (document.getElementById(1).value === "O" &&
+      document.getElementById(4).value === "O" &&
+      document.getElementById(7).value === "O") ||
+    (document.getElementById(1).value === "O" &&
+      document.getElementById(5).value === "O" &&
+      document.getElementById(9).value === "O") ||
+    (document.getElementById(3).value === "O" &&
+      document.getElementById(5).value === "O" &&
+      document.getElementById(7).value === "O") ||
+    (document.getElementById(2).value === "O" &&
+      document.getElementById(5).value === "O" &&
+      document.getElementById(8).value === "O") ||
+    (document.getElementById(4).value === "O" &&
+      document.getElementById(5).value === "O" &&
+      document.getElementById(6).value === "O")
+  ) {
+    alert("comp win");
+    reset();
+  } else if (
+    (document.getElementById(1).value === "X" &&
+      document.getElementById(2).value === "X" &&
+      document.getElementById(3).value === "X") ||
+    (document.getElementById(1).value === "X" &&
+      document.getElementById(4).value === "X" &&
+      document.getElementById(7).value === "X") ||
+    (document.getElementById(1).value === "X" &&
+      document.getElementById(5).value === "X" &&
+      document.getElementById(9).value === "X") ||
+    (document.getElementById(3).value === "X" &&
+      document.getElementById(5).value === "X" &&
+      document.getElementById(7).value === "X") ||
+    (document.getElementById(2).value === "X" &&
+      document.getElementById(5).value === "X" &&
+      document.getElementById(8).value === "X") ||
+    (document.getElementById(4).value === "X" &&
+      document.getElementById(5).value === "X" &&
+      document.getElementById(6).value === "X")
+  ) {
+    alert("you win");
+    reset();
   } else {
-    return num1 / num2;
   }
 }
-function mod(num1, num2) {
-  return num1 % num2;
-}
-
-let num1 = parseFloat(prompt("Podaj pierwszą liczbę"));
-let sym = prompt("Podaj operator + - ( / lub %");
-do {
-  switch (sym) {
-    case "+":
-      num2 = parseFloat(prompt("Podaj drugą liczbę"));
-      alert((num1 = add(num1, num2)));
-      sym = prompt("Podaj operator + - ( / lub %");
-      break;
-    case "-":
-      num2 = parseFloat(prompt("Podaj drugą liczbę"));
-      alert((num1 = subtract(num1, num2)));
-      sym = prompt("Podaj operator + - ( / lub %");
-      break;
-    case "*":
-      num2 = parseFloat(prompt("Podaj drugą liczbę"));
-      alert((num1 = multiply(num1, num2)));
-      sym = prompt("Podaj operator + - ( / lub %");
-
-      break;
-    case "/":
-      num2 = parseFloat(prompt("Podaj drugą liczbę"));
-
-      alert((num1 = divide(num1, num2)));
-      sym = prompt("Podaj operator + - ( / lub %");
-
-      break;
-    case "%":
-      num2 = parseFloat(prompt("Podaj drugą liczbę"));
-
-      alert((num1 = mod(num1, num2)));
-      sym = prompt("Podaj operator + - ( / lub %");
-      break;
-  }
-} while (sym !== "");

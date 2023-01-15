@@ -3,7 +3,6 @@
   grid-template-columns: 150px 150px 150px;
   justify-content: center;
   gap: 10px 0px;
-  counter-reset: counter;
 }
 
 .btn {
@@ -19,34 +18,10 @@
   color: white;
 }
 
-.row-1::before {
-  counter-increment: counter;
-  content: counter(counter) " ";
-}
-
-.row-2::before {
-  counter-increment: counter;
-  content: counter(counter, upper-roman) " ";
-}
-
-.row-3::before {
-  counter-increment: counter;
-  content: "[0" counter(counter) "] ";
-}
-
 .btn:active {
   border-color: white;
 }
-.btn:nth-of-type(4) {
-  background-color: orange;
-}
-.btn:nth-of-type(4):hover {
-  background-color: green;
-}
 
-.btn:nth-of-type(9) {
-  background-color: greenyellow;
-}
-.btn:nth-of-type(9):hover {
-  background-color: blue;
+.reset {
+  color: red;
 }
