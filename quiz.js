@@ -1,5 +1,5 @@
 function clicked(id) {
-  var btnUser = window.document.getElementById(id);
+  let btnUser = window.document.getElementById(id);
   if (btnUser.value.length > 0) {
     alert("Pole zajęte!!! Wybierz inne!");
   } else {
@@ -8,9 +8,9 @@ function clicked(id) {
     computerPlay();
   }
 }
-click = 1;
 
 function computerPlay() {
+  let click = 1;
   while (click < 9) {
     btnComp = window.document.getElementById(click);
 
@@ -28,12 +28,16 @@ function computerPlay() {
 
 function reset() {
   for (let i = 1; i < 10; i++) {
-    var reset = window.document.getElementById(i);
+    let reset = window.document.getElementById(i);
     reset.value = "";
     reset.innerHTML = "";
-
     click = 1;
   }
+}
+
+function resetByButton() {
+  reset();
+  document.getElementById("reset").remove();
 }
 
 function checkWin() {
@@ -64,7 +68,11 @@ function checkWin() {
       document.getElementById(9).value === "X")
   ) {
     alert("you win");
-    reset();
+    let resetBtn = document.createElement("button");
+    resetBtn.innerHTML = "RESET";
+    resetBtn.id = "reset";
+    resetBtn.onclick = resetByButton;
+    document.body.appendChild(resetBtn);
   } else if (
     (document.getElementById(1).value === "O" &&
       document.getElementById(2).value === "O" &&
@@ -92,7 +100,11 @@ function checkWin() {
       document.getElementById(9).value === "X")
   ) {
     alert("comp win");
-    reset();
+    let resetBtn = document.createElement("button");
+    resetBtn.innerHTML = "RESET";
+    resetBtn.id = "reset";
+    resetBtn.onclick = resetByButton;
+    document.body.appendChild(resetBtn);
   } else {
   }
 }
