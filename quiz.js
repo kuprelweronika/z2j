@@ -106,9 +106,7 @@ function checkWin() {
     resetBtn.id = "reset";
     resetBtn.onclick = resetByButton;
     document.body.appendChild(resetBtn);
-  }
-
-  if (
+  } else if (
     (win = winConditions.some((winCondition) => {
       return winCondition.every((condition) => steps.O.includes(condition));
     }))
