@@ -116,7 +116,7 @@ function reset() {
     let reset = window.document.getElementById(i);
     reset.value = "";
     reset.innerHTML = "";
-    click = 1;
+    counter = 1;
   }
 }
 
