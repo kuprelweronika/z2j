@@ -117,6 +117,8 @@ function reset() {
     reset.value = "";
     reset.innerHTML = "";
     counter = 1;
+    steps.X = [];
+    steps.O = [];
   }
 }
 
