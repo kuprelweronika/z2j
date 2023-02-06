@@ -49,18 +49,17 @@ function clicked() {
 }
 
 function computerPlay() {
-  let click = 1;
-  while (click < 100) {
+  let click = Math.floor(Math.random() * 100) + 1;
+
+  while (click < 101) {
     btnComp = window.document.getElementById(click);
 
     if (btnComp?.value.length > 0) {
-      click++;
+      click = Math.floor(Math.random() * 100) + 1;
     } else {
       btnComp.value = "O";
       btnComp.innerHTML = "O";
       steps.O.push(parseInt(id));
-
-      click++;
       break;
     }
   }
@@ -100,6 +99,8 @@ function checkWin() {
       return winCondition.every((condition) => steps.X.includes(condition));
     }))
   ) {
+    console.log(steps.X);
+
     alert("you win");
     let resetBtn = document.createElement("button");
     resetBtn.innerHTML = "RESET";
@@ -111,6 +112,7 @@ function checkWin() {
       return winCondition.every((condition) => steps.O.includes(condition));
     }))
   ) {
+    console.log(steps.O);
     alert("comp win");
     let resetBtn = document.createElement("button");
     resetBtn.innerHTML = "RESET";
