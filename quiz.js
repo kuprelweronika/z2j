@@ -1,11 +1,13 @@
 function howBigShouldBe() {
   howBig = parseInt(prompt("How big Tic Tac Toe?"));
   if (howBig === 1) {
-    alert("Its to small. Change bigger");
+    alert("Its too small. Change bigger");
     howBigShouldBe();
   } else if (howBig === 2) {
-    alert("Its to small. Change bigger");
+    alert("Its too small. Change bigger");
     howBigShouldBe();
+  } else if (howBig > 10) {
+    alert("Its too big. Max number is 10");
   }
   return howBig;
 }
