@@ -41,8 +41,6 @@ switch (howBig) {
     break;
 }
 
-// let el = document.getElementsByClassName("container");
-
 for (let i = 1; i < howBig * howBig + 1; i++) {
   let btn = document.createElement("button");
   btn.id = i;
@@ -84,7 +82,7 @@ function clicked() {
   id = window.event.target.id;
   btnUser = window.document.getElementById(id);
   if (btnUser.value.length > 0) {
-    alert("Pole zajęte!!! Wybierz inne!");
+    alert("Choose another button");
   } else {
     btnUser.value = "X";
     btnUser.innerHTML = "X";
@@ -95,7 +93,6 @@ function clicked() {
 
 function computerPlay() {
   let click = Math.floor(Math.random() * (howBig * howBig)) + 1;
-  let counter = 1;
 
   for (let i = 1; i < howBig + 1; i++) {
     btnComp = window.document.getElementById(click);
@@ -103,7 +100,6 @@ function computerPlay() {
     if (btnComp?.value.length > 0) {
       click = Math.floor(Math.random() * (howBig * howBig)) + 1;
     } else {
-      console.log(counter);
       btnComp.value = "O";
       btnComp.innerHTML = "O";
       steps.O.push(parseInt(id));
@@ -118,7 +114,6 @@ function reset() {
     let reset = window.document.getElementById(i);
     reset.value = "";
     reset.innerHTML = "";
-    counter = 1;
     steps.X = [];
     steps.O = [];
   }
@@ -140,35 +135,7 @@ let hor = Array(howBig)
       .map(() => i++)
   );
 let ver = hor[0].map((_, colIndex) => hor.map((row) => row[colIndex]));
-
 winConditions = hor.concat(ver);
-// winConditions = [
-//   //hor
-//   [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-//   [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-//   [21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-//   [31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
-//   [41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
-//   [51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
-//   [61, 62, 63, 64, 65, 66, 67, 68, 69, 70],
-//   [71, 72, 73, 74, 75, 76, 77, 78, 79, 80],
-//   [81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
-//   [91, 92, 93, 94, 95, 96, 97, 98, 99, 100],
-//   //vert
-//   [1, 11, 21, 31, 41, 51, 61, 71, 81, 91],
-//   [2, 12, 22, 32, 42, 52, 62, 72, 82, 92],
-//   [3, 13, 23, 33, 43, 53, 63, 73, 83, 93],
-//   [4, 14, 24, 34, 44, 54, 64, 74, 84, 94],
-//   [5, 15, 25, 35, 45, 55, 65, 75, 85, 95],
-//   [6, 16, 26, 36, 46, 56, 66, 76, 86, 96],
-//   [7, 17, 27, 37, 47, 57, 67, 77, 87, 97],
-//   [8, 18, 28, 38, 48, 58, 68, 78, 88, 98],
-//   [9, 19, 29, 39, 49, 59, 69, 79, 89, 99],
-//   [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-//   //diag
-//   [1, 12, 23, 34, 45, 56, 67, 78, 89, 100],
-//   [10, 19, 28, 37, 46, 55, 64, 73, 82, 91],
-// ];
 
 function checkWin() {
   if (
@@ -176,9 +143,7 @@ function checkWin() {
       return winCondition.every((condition) => steps.X.includes(condition));
     }))
   ) {
-    console.log(steps.X);
-
-    alert("you win");
+    alert("You win");
     let resetBtn = document.createElement("button");
     resetBtn.innerHTML = "RESET";
     resetBtn.id = "reset";
@@ -189,8 +154,7 @@ function checkWin() {
       return winCondition.every((condition) => steps.O.includes(condition));
     }))
   ) {
-    console.log(steps.O);
-    alert("comp win");
+    alert("Computer win");
     let resetBtn = document.createElement("button");
     resetBtn.innerHTML = "RESET";
     resetBtn.id = "reset";
