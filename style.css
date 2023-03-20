@@ -3,3 +3,10 @@
   height: 20px;
   width: 20px;
 }
+.container2 {
+  display: flex;
+}
+
+.ship_container {
+  background-color: rebeccapurple;
+}
