@@ -10,58 +10,69 @@ const ships = [
 //nie ma odstępów między nimi
 //mogą się przecinać
 
-function createShip(ship, direction, number, letter) {
-  for (i = 0; i < ship.length; i++) {
-    if (direction === 1) {
-      number = number + 1;
-      array = [coordinate];
-      coordinate = letter + number;
+let gameBoard = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
 
-      position = document.getElementById(coordinate);
-      position.innerHTML = "X";
-      ship.coordinate.push(coordinate);
-    } else {
-      //ustawianie poziomo
-      letter = letter.substring(0, letter.length - 1) + String.fromCharCode(letter.charCodeAt(letter.length - 1) + 1);
-      coordinate = letter + number;
-      array = [coordinate];
-      position = document.getElementById(coordinate);
-
-      position.innerHTML = "X";
-
-      ship.coordinate.push(coordinate);
-    }
-  }
-  return coordinate;
-}
+function rysowanie() {}
 
 function generateFirstCordinateAndDirection() {
-  letter = String.fromCharCode(65 + Math.floor(Math.random() * 5));
-  number = Math.ceil(5 * Math.random());
-  coordinate = letter + number;
+  numberR = Math.ceil(5 * Math.random()).toString();
+  numberC = Math.ceil(5 * Math.random()).toString();
+  coordinate = numberR + numberC;
   direction = Math.ceil(Math.random() * 2);
-
-  return [letter, number, direction, coordinate];
+  return [direction, coordinate];
 }
-function checkCoordinate(coordinate) {
-  if (ships.some((ship) => ship.coordinate.includes(coordinate))) {
-    return true;
-  } else {
-    return false;
+
+function createShip(ship, startCoordinate, direction) {
+  testArray = [parseInt(startCoordinate)];
+  coordinate = parseInt(startCoordinate);
+  for (i = 0; i < ship.length - 1; i++) {
+    if (direction === 1) {
+      coordinate++;
+      testArray.push(coordinate);
+    } else {
+      coordinate = coordinate + 10;
+      testArray.push(coordinate);
+    }
   }
+  return testArray;
+}
+banned = [];
+function mapToGameBoard(testArray) {
+  testArray.map((array) => {
+    elBefore = testArray[0];
+    elNext = testArray[testArray.length - 1];
+    banned.push(elBefore, elNext);
+    let row = Math.floor(array / 10);
+    let col = array % 10;
+    gameBoard[row][col] = 1;
+    el = document.getElementById(array);
+    el.innerHTML = "X";
+  });
 }
 
 function createAllShips() {
   ships.map((ship) => {
-    [letter, number, direction, coordinate] = generateFirstCordinateAndDirection();
-
-    while (checkCoordinate(coordinate)) {
-      [letter, number, direction, coordinate] = generateFirstCordinateAndDirection();
-    }
-    createShip(ship, direction, number, letter);
+    [direction, coordinate] = generateFirstCordinateAndDirection();
+    testArray = createShip(ship, coordinate, direction);
+    ship.coordinate = testArray;
+    mapToGameBoard(testArray);
   });
 }
+
+console.log(gameBoard);
 createAllShips();
+console.log(ships);
 
 function isSunk() {
   ships.map((ship) => {
@@ -78,7 +89,10 @@ for (var i = 0; i < cells.length; i++) {
 }
 
 function attack(e) {
-  let clickCoordinate = e.target.id;
+  var row = e.target.id.substring(1, 2);
+  var col = e.target.id.substring(2, 3);
+  gameBoard[row][col] = 1;
+
   if (ships.some((ship) => ship.coordinate.includes(clickCoordinate))) {
     ships.map((ship) => {
       if (ship.coordinate.includes(clickCoordinate)) {
@@ -95,6 +109,7 @@ function attack(e) {
 
     position.innerHTML = "X";
   }
+  console.log(gameBoard);
 }
 
 function win() {
