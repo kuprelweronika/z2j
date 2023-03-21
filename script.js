@@ -169,86 +169,89 @@ function dragstart_handler(ev) {
   ev.dataTransfer.setData("text/plain", ev.target.id);
   ev.dataTransfer.dropEffect = "move";
   //fun dodawania klasy po najechaniu myszą
-  let squares = document.getElementsByTagName("td");
-  for (i = 0; i < squares.length; i++) {
-    squares[i].addEventListener("dragenter", (event) => {
-      if (event.target.classList.contains("dropzone")) {
-        console.log(ev.target.id);
-        switch (ev.target.id) {
-          case "carrier": {
-            console.log("jestem tu");
-            event.target.classList.add("dragover");
-            event.target.previousSibling.classList.add("dragover");
-            event.target.previousSibling.previousSibling.classList.add("dragover");
-            event.target.nextSibling.classList.add("dragover");
-            event.target.nextSibling.nextSibling.classList.add("dragover");
-            break;
-          }
-          case "battleship": {
-            event.target.classList.add("dragover");
-            event.target.previousSibling.classList.add("dragover");
-            event.target.nextSibling.classList.add("dragover");
-            event.target.nextSibling.nextSibling.classList.add("dragover");
-            break;
-          }
-          case "destroyer": {
-            event.target.classList.add("dragover");
-            event.target.previousSibling.classList.add("dragover");
-            event.target.nextSibling.classList.add("dragover");
-            break;
-          }
-          case "submarine": {
-            event.target.classList.add("dragover");
-            event.target.previousSibling.classList.add("dragover");
-            event.target.nextSibling.classList.add("dragover");
-            break;
-          }
-          case "patrolBoat": {
-            event.target.classList.add("dragover");
-            event.target.nextSibling.classList.add("dragover");
-            break;
-          }
-        }
-      }
-    });
-  }
-  //funkcja usuwania klasy po zejsciu myszki z pola
-  for (i = 0; i < squares.length; i++) {
-    squares[i].addEventListener("dragleave", (event) => {
-      if (event.target.classList.contains("dropzone")) {
-        switch (ev.target.id) {
-          case "carrier": {
-            event.target.classList.remove("dragover");
-            event.target.previousSibling.classList.remove("dragover");
-            event.target.previousSibling.previousSibling.classList.remove("dragover");
-            event.target.nextSibling.classList.remove("dragover");
-            event.target.nextSibling.nextSibling.classList.remove("dragover");
-          }
-          case "battleship": {
-            event.target.classList.remove("dragover");
-            event.target.previousSibling.classList.remove("dragover");
-            event.target.nextSibling.classList.remove("dragover");
-            event.target.nextSibling.nextSibling.classList.remove("dragover");
-          }
-          case "destroyer": {
-            event.target.classList.remove("dragover");
-            event.target.previousSibling.classList.remove("dragover");
-            event.target.nextSibling.classList.add("dragover");
-          }
-          case "submarine": {
-            event.target.classList.remove("dragover");
-            event.target.previousSibling.classList.remove("dragover");
-            event.target.nextSibling.classList.remove("dragover");
-          }
-          case "patrolBoat": {
-            event.target.classList.remove("dragover");
-            event.target.nextSibling.classList.remove("dragover");
-          }
-        }
-      }
-    });
+}
+
+function dragLeaveHandler(event) {
+  switch (data) {
+    case "carrier": {
+      event.target.classList.remove("dragover");
+      event.target.previousSibling.classList.remove("dragover");
+      event.target.previousSibling.previousSibling.classList.remove("dragover");
+      event.target.nextSibling.classList.remove("dragover");
+      event.target.nextSibling.nextSibling.classList.remove("dragover");
+    }
+    case "battleship": {
+      event.target.classList.remove("dragover");
+      event.target.previousSibling.classList.remove("dragover");
+      event.target.nextSibling.classList.remove("dragover");
+      event.target.nextSibling.nextSibling.classList.remove("dragover");
+    }
+    case "destroyer": {
+      event.target.classList.remove("dragover");
+      event.target.previousSibling.classList.remove("dragover");
+      event.target.nextSibling.classList.add("dragover");
+    }
+    case "submarine": {
+      event.target.classList.remove("dragover");
+      event.target.previousSibling.classList.remove("dragover");
+      event.target.nextSibling.classList.remove("dragover");
+    }
+    case "patrolBoat": {
+      event.target.classList.remove("dragover");
+      event.target.nextSibling.classList.remove("dragover");
+    }
   }
 }
+function dragOverHandler(e) {
+  console.log(data);
+
+  console.log(e.target.id);
+  if (e.target.classList.contains("dropzone")) {
+    switch (data) {
+      case "carrier": {
+        console.log("jestem tu");
+        e.target.classList.add("dragover");
+        e.target.previousSibling.classList.add("dragover");
+        e.target.previousSibling.previousSibling.classList.add("dragover");
+        e.target.nextSibling.classList.add("dragover");
+        e.target.nextSibling.nextSibling.classList.add("dragover");
+        break;
+      }
+      case "battleship": {
+        e.target.classList.add("dragover");
+        e.target.previousSibling.classList.add("dragover");
+        e.target.nextSibling.classList.add("dragover");
+        e.target.nextSibling.nextSibling.classList.add("dragover");
+        break;
+      }
+      case "destroyer": {
+        e.target.classList.add("dragover");
+        e.target.previousSibling.classList.add("dragover");
+        e.target.nextSibling.classList.add("dragover");
+        break;
+      }
+      case "submarine": {
+        e.target.classList.add("dragover");
+        e.target.previousSibling.classList.add("dragover");
+        e.target.nextSibling.classList.add("dragover");
+        break;
+      }
+      case "patrolBoat": {
+        e.target.classList.add("dragover");
+        e.target.nextSibling.classList.add("dragover");
+        break;
+      }
+    }
+  }
+}
+let squares = document.getElementsByTagName("td");
+for (i = 0; i < squares.length; i++) {
+  squares[i].addEventListener("dragenter", dragOverHandler);
+  squares[i].addEventListener("dragleave", dragLeaveHandler);
+}
+
+//funkcja usuwania klasy po zejsciu myszki z pola
+
 function dragover_handler(ev) {
   ev.preventDefault();
   ev.dataTransfer.dropEffect = "move";
@@ -260,10 +263,12 @@ function addColor() {
     d[i].classList.add("color");
   }
 }
+let data;
 function drop_handler(ev) {
   ev.preventDefault();
   // Get the id of the target and add the moved element to the target's DOM
-  let data = ev.dataTransfer.getData("text/plain");
+  data = ev.dataTransfer.getData("text/plain");
+
   switch (data) {
     case "carrier": {
       addColor();
@@ -299,6 +304,7 @@ function drop_handler(ev) {
     }
   }
 }
+console.log(data);
 
 //pobieranie ruszonego statku i dawanie mu listenera na dragdrop
 window.addEventListener("DOMContentLoaded", () => {
