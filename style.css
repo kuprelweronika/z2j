@@ -10,3 +10,10 @@
 .ship_container {
   background-color: rebeccapurple;
 }
+
+.dragover {
+  background-color: blueviolet;
+}
+.color {
+  background-color: blueviolet;
+}

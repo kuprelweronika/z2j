@@ -37,6 +37,7 @@ function tableCreate() {
       td.style.width = "20px";
       td.style.height = "20px";
       td.style.border = "solid";
+      td.classList.add("dropzone");
     }
   }
   body.appendChild(tbl);
@@ -167,18 +168,136 @@ function dragstart_handler(ev) {
   // Add the target element's id to the data transfer object
   ev.dataTransfer.setData("text/plain", ev.target.id);
   ev.dataTransfer.dropEffect = "move";
+  //fun dodawania klasy po najechaniu myszą
+  let squares = document.getElementsByTagName("td");
+  for (i = 0; i < squares.length; i++) {
+    squares[i].addEventListener("dragenter", (event) => {
+      if (event.target.classList.contains("dropzone")) {
+        console.log(ev.target.id);
+        switch (ev.target.id) {
+          case "carrier": {
+            console.log("jestem tu");
+            event.target.classList.add("dragover");
+            event.target.previousSibling.classList.add("dragover");
+            event.target.previousSibling.previousSibling.classList.add("dragover");
+            event.target.nextSibling.classList.add("dragover");
+            event.target.nextSibling.nextSibling.classList.add("dragover");
+            break;
+          }
+          case "battleship": {
+            event.target.classList.add("dragover");
+            event.target.previousSibling.classList.add("dragover");
+            event.target.nextSibling.classList.add("dragover");
+            event.target.nextSibling.nextSibling.classList.add("dragover");
+            break;
+          }
+          case "destroyer": {
+            event.target.classList.add("dragover");
+            event.target.previousSibling.classList.add("dragover");
+            event.target.nextSibling.classList.add("dragover");
+            break;
+          }
+          case "submarine": {
+            event.target.classList.add("dragover");
+            event.target.previousSibling.classList.add("dragover");
+            event.target.nextSibling.classList.add("dragover");
+            break;
+          }
+          case "patrolBoat": {
+            event.target.classList.add("dragover");
+            event.target.nextSibling.classList.add("dragover");
+            break;
+          }
+        }
+      }
+    });
+  }
+  //funkcja usuwania klasy po zejsciu myszki z pola
+  for (i = 0; i < squares.length; i++) {
+    squares[i].addEventListener("dragleave", (event) => {
+      if (event.target.classList.contains("dropzone")) {
+        switch (ev.target.id) {
+          case "carrier": {
+            event.target.classList.remove("dragover");
+            event.target.previousSibling.classList.remove("dragover");
+            event.target.previousSibling.previousSibling.classList.remove("dragover");
+            event.target.nextSibling.classList.remove("dragover");
+            event.target.nextSibling.nextSibling.classList.remove("dragover");
+          }
+          case "battleship": {
+            event.target.classList.remove("dragover");
+            event.target.previousSibling.classList.remove("dragover");
+            event.target.nextSibling.classList.remove("dragover");
+            event.target.nextSibling.nextSibling.classList.remove("dragover");
+          }
+          case "destroyer": {
+            event.target.classList.remove("dragover");
+            event.target.previousSibling.classList.remove("dragover");
+            event.target.nextSibling.classList.add("dragover");
+          }
+          case "submarine": {
+            event.target.classList.remove("dragover");
+            event.target.previousSibling.classList.remove("dragover");
+            event.target.nextSibling.classList.remove("dragover");
+          }
+          case "patrolBoat": {
+            event.target.classList.remove("dragover");
+            event.target.nextSibling.classList.remove("dragover");
+          }
+        }
+      }
+    });
+  }
 }
 function dragover_handler(ev) {
   ev.preventDefault();
   ev.dataTransfer.dropEffect = "move";
-  ev.currentTarget.style.background = "red";
+}
+
+function addColor() {
+  const d = document.getElementsByClassName("dropzone dragover");
+  for (let i = 0; i < d.length; i++) {
+    d[i].classList.add("color");
+  }
 }
 function drop_handler(ev) {
   ev.preventDefault();
   // Get the id of the target and add the moved element to the target's DOM
-  const data = ev.dataTransfer.getData("text/plain");
-
-  ev.target.appendChild(document.getElementById(data));
+  let data = ev.dataTransfer.getData("text/plain");
+  switch (data) {
+    case "carrier": {
+      addColor();
+      ev.target.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.previousSibling.previousSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.nextSibling.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+    }
+    case "battleship": {
+      addColor();
+      ev.target.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.previousSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.nextSibling.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+    }
+    case "destroyer": {
+      addColor();
+      ev.target.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.previousSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+    }
+    case "submarine": {
+      addColor();
+      ev.target.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.previousSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+    }
+    case "patrolBoat": {
+      addColor();
+      ev.target.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+    }
+    case deafult: {
+    }
+  }
 }
 
 //pobieranie ruszonego statku i dawanie mu listenera na dragdrop
