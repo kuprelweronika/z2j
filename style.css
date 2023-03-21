@@ -17,3 +17,8 @@
 .color {
   background-color: blueviolet;
 }
+
+#board_container {
+  display: flex;
+  gap: 100px;
+}

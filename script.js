@@ -1,4 +1,4 @@
-const ships = [
+const shipsPlayer = [
   { id: "1", length: 5, isSunk: false, hit: 0, coordinate: [] },
   { id: "2", length: 4, isSunk: false, hit: 0, coordinate: [] },
   { id: "3", length: 3, isSunk: false, hit: 0, coordinate: [] },
@@ -6,7 +6,14 @@ const ships = [
   { id: "5", length: 2, isSunk: false, hit: 0, coordinate: [] },
 ];
 
-let gameBoard = [
+const shipsComputer = [
+  { id: "1", length: 5, isSunk: false, hit: 0, coordinate: [] },
+  { id: "2", length: 4, isSunk: false, hit: 0, coordinate: [] },
+  { id: "3", length: 3, isSunk: false, hit: 0, coordinate: [] },
+  { id: "4", length: 3, isSunk: false, hit: 0, coordinate: [] },
+  { id: "5", length: 2, isSunk: false, hit: 0, coordinate: [] },
+];
+let gameBoardPlayer = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -19,35 +26,54 @@ let gameBoard = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
-function tableCreate() {
+let gameBoardComputer = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
+let dragShipType;
+
+function tableCreate(user) {
   const body = document.body,
-    tbl = document.createElement("table");
-  var row = tbl.insertRow(0);
+    tblUser = document.createElement("table");
+  var row = tblUser.insertRow(0);
   row.insertCell(0).outerHTML = "<th></th><th>A</th> <th>B</th> <th>C</th> <th>D</th> <th>E</th> <th>F</th>  <th>G</th>  <th>H</th> <th>I</th> <th>J</th>";
   for (let i = 0; i < 10; i++) {
-    const tr = tbl.insertRow();
+    const tr = tblUser.insertRow();
     first = tr.insertCell();
     first.outerHTML = i + 1;
     for (let j = 0; j < 10; j++) {
       const td = tr.insertCell();
-      td.id = j.toString() + i.toString();
+      td.id = user + j.toString() + i.toString();
       td.setAttribute("ondrop", "drop_handler(event)");
       td.setAttribute("ondragover", "dragover_handler(event)");
+      td.setAttribute("attack", "attackPlayer(event)");
+
       td.style.border = "1px solid black";
       td.style.width = "20px";
       td.style.height = "20px";
       td.style.border = "solid";
       td.classList.add("dropzone");
     }
+    el = document.getElementById("board_container");
+    el.appendChild(tblUser);
   }
-  body.appendChild(tbl);
 }
-tableCreate();
+tableCreate(1);
+tableCreate(2);
 
 function generateFirstCordinateAndDirection() {
   numberR = Math.ceil(5 * Math.random()).toString();
   numberC = Math.ceil(5 * Math.random()).toString();
-  coordinate = numberR + numberC;
+  coordinate = 1 + numberR + numberC;
   direction = Math.ceil(Math.random() * 2);
   return [direction, coordinate];
 }
@@ -74,17 +100,17 @@ function mapToGameBoard(testArray, direction) {
     elRight = parseInt(array) + 10;
     elLeft = parseInt(array) - 10;
     banned.push(elBefore, elNext, elRight, elLeft);
-    let row = Math.floor(array / 10);
+    let row = Math.floor(array / 10) - 10;
     let col = array % 10;
     banned.push(array);
-    gameBoard[row][col] = 1;
+    gameBoardComputer[row][col] = 1;
     el = document.getElementById(array);
-    el.innerHTML = "X";
+    // el.innerHTML = "X";
   });
 }
 
 function createAllShips() {
-  ships.map((ship) => {
+  shipsComputer.map((ship) => {
     //rysuje pierwszego
     if (banned.length === 0) {
       [direction, coordinate] = generateFirstCordinateAndDirection();
@@ -106,7 +132,7 @@ function createAllShips() {
     }
   });
 }
-
+createAllShips();
 function check(testArray) {
   test = [];
 
@@ -121,7 +147,7 @@ function check(testArray) {
 }
 
 function isSunk() {
-  ships.map((ship) => {
+  shipsComputer.map((ship) => {
     if (ship.hit === ship.length) {
       ship.isSunk = true;
     }
@@ -130,17 +156,43 @@ function isSunk() {
 const cells = document.querySelectorAll("td");
 for (var i = 0; i < cells.length; i++) {
   cells[i].addEventListener("click", function () {
-    attack(event);
+    attackPlayer(event);
   });
 }
 
-function attack(e) {
+function attackComputer() {
+  let coordinate = 200 + Math.floor(100 * Math.random());
+  el = document.getElementById(coordinate);
+  if (
+    shipsPlayer.some((ship) => {
+      return ship.coordinate.includes(coordinate);
+    })
+  ) {
+    shipsPlayer.map((ship) => {
+      if (ship.coordinate.includes(coordinate)) {
+        ship.hit++;
+        win();
+        el.innerHTML = "S";
+      }
+    });
+  } else {
+    console.log("else");
+    coordinate = 200 + Math.floor(100 * Math.random());
+    el.innerHTML = "X";
+  }
+}
+
+function attackPlayer(e) {
   var row = e.target.id.substring(1, 2);
   var col = e.target.id.substring(2, 3);
-  gameBoard[row][col] = 1;
+  let clickCoordinate = parseInt(e.target.id);
 
-  if (ships.some((ship) => ship.coordinate.includes(clickCoordinate))) {
-    ships.map((ship) => {
+  if (
+    shipsComputer.some((ship) => {
+      return ship.coordinate.includes(clickCoordinate);
+    })
+  ) {
+    shipsComputer.map((ship) => {
       if (ship.coordinate.includes(clickCoordinate)) {
         ship.hit++;
         win();
@@ -152,64 +204,23 @@ function attack(e) {
     win();
   } else {
     position = document.getElementById(clickCoordinate);
-
     position.innerHTML = "X";
   }
-  console.log(gameBoard);
+  attackComputer();
 }
 
 function win() {
-  if (ships.every((ship) => ship.isSunk)) {
+  if (shipsComputer.every((ship) => ship.isSunk)) {
     alert("you win");
   }
+  console.log(shipsComputer);
+  console.log(shipsPlayer);
 }
 
-function dragstart_handler(ev) {
-  // Add the target element's id to the data transfer object
-  ev.dataTransfer.setData("text/plain", ev.target.id);
-  ev.dataTransfer.dropEffect = "move";
-  //fun dodawania klasy po najechaniu myszą
-}
-
-function dragLeaveHandler(event) {
-  switch (data) {
-    case "carrier": {
-      event.target.classList.remove("dragover");
-      event.target.previousSibling.classList.remove("dragover");
-      event.target.previousSibling.previousSibling.classList.remove("dragover");
-      event.target.nextSibling.classList.remove("dragover");
-      event.target.nextSibling.nextSibling.classList.remove("dragover");
-    }
-    case "battleship": {
-      event.target.classList.remove("dragover");
-      event.target.previousSibling.classList.remove("dragover");
-      event.target.nextSibling.classList.remove("dragover");
-      event.target.nextSibling.nextSibling.classList.remove("dragover");
-    }
-    case "destroyer": {
-      event.target.classList.remove("dragover");
-      event.target.previousSibling.classList.remove("dragover");
-      event.target.nextSibling.classList.add("dragover");
-    }
-    case "submarine": {
-      event.target.classList.remove("dragover");
-      event.target.previousSibling.classList.remove("dragover");
-      event.target.nextSibling.classList.remove("dragover");
-    }
-    case "patrolBoat": {
-      event.target.classList.remove("dragover");
-      event.target.nextSibling.classList.remove("dragover");
-    }
-  }
-}
 function dragOverHandler(e) {
-  console.log(data);
-
-  console.log(e.target.id);
   if (e.target.classList.contains("dropzone")) {
-    switch (data) {
+    switch (dragShipType) {
       case "carrier": {
-        console.log("jestem tu");
         e.target.classList.add("dragover");
         e.target.previousSibling.classList.add("dragover");
         e.target.previousSibling.previousSibling.classList.add("dragover");
@@ -241,16 +252,50 @@ function dragOverHandler(e) {
         e.target.nextSibling.classList.add("dragover");
         break;
       }
+      default: {
+        break;
+      }
     }
   }
 }
+
+function dragLeaveHandler(event) {
+  switch (dragShipType) {
+    case "carrier": {
+      event.target.classList.remove("dragover");
+      event.target.previousSibling.classList.remove("dragover");
+      event.target.previousSibling.previousSibling.classList.remove("dragover");
+      event.target.nextSibling.classList.remove("dragover");
+      event.target.nextSibling.nextSibling.classList.remove("dragover");
+    }
+    case "battleship": {
+      event.target.classList.remove("dragover");
+      event.target.previousSibling.classList.remove("dragover");
+      event.target.nextSibling.classList.remove("dragover");
+      event.target.nextSibling.nextSibling.classList.remove("dragover");
+    }
+    case "destroyer": {
+      event.target.classList.remove("dragover");
+      event.target.previousSibling.classList.remove("dragover");
+      event.target.nextSibling.classList.add("dragover");
+    }
+    case "submarine": {
+      event.target.classList.remove("dragover");
+      event.target.previousSibling.classList.remove("dragover");
+      event.target.nextSibling.classList.remove("dragover");
+    }
+    case "patrolBoat": {
+      event.target.classList.remove("dragover");
+      event.target.nextSibling.classList.remove("dragover");
+    }
+  }
+}
+
 let squares = document.getElementsByTagName("td");
 for (i = 0; i < squares.length; i++) {
   squares[i].addEventListener("dragenter", dragOverHandler);
   squares[i].addEventListener("dragleave", dragLeaveHandler);
 }
-
-//funkcja usuwania klasy po zejsciu myszki z pola
 
 function dragover_handler(ev) {
   ev.preventDefault();
@@ -263,48 +308,106 @@ function addColor() {
     d[i].classList.add("color");
   }
 }
-let data;
+
+function dragstart_handler(ev) {
+  // Add the target element's id to the data transfer object
+  ev.dataTransfer.setData("text/plain", ev.target.id);
+  ev.dataTransfer.dropEffect = "move";
+  dragShipType = ev.target.id;
+}
 function drop_handler(ev) {
   ev.preventDefault();
-  // Get the id of the target and add the moved element to the target's DOM
-  data = ev.dataTransfer.getData("text/plain");
+  dragShipType = ev.dataTransfer.getData("text/plain");
+  var row = parseInt(ev.target.id.substring(2, 3));
+  var col = parseInt(ev.target.id.substring(1, 2));
 
-  switch (data) {
+  switch (dragShipType) {
     case "carrier": {
+      //wstawienie jedynek do gameBoardu
+      gameBoardPlayer[row][col + 1] = 1;
+      gameBoardPlayer[row][col - 1] = 1;
+      gameBoardPlayer[row][col + 2] = 1;
+      gameBoardPlayer[row][col - 2] = 1;
+      gameBoardPlayer[row][col] = 1;
+      coordinate = parseInt(ev.target.id);
+      shipsPlayer[0].coordinate.push(coordinate - 20);
+      shipsPlayer[0].coordinate.push(coordinate - 10);
+      shipsPlayer[0].coordinate.push(coordinate);
+      shipsPlayer[0].coordinate.push(coordinate + 10);
+      shipsPlayer[0].coordinate.push(coordinate + 20);
+
       addColor();
-      ev.target.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.previousSibling.previousSibling.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.nextSibling.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.previousSibling.previousSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.nextSibling.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      break;
     }
     case "battleship": {
+      gameBoardPlayer[row][col + 1] = 1;
+      gameBoardPlayer[row][col - 1] = 1;
+      gameBoardPlayer[row][col + 2] = 1;
+      gameBoardPlayer[row][col] = 1;
+      coordinate = parseInt(ev.target.id);
+      shipsPlayer[1].coordinate.push(coordinate - 10);
+      shipsPlayer[1].coordinate.push(coordinate);
+      shipsPlayer[1].coordinate.push(coordinate + 10);
+      shipsPlayer[1].coordinate.push(coordinate + 20);
       addColor();
-      ev.target.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.previousSibling.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.nextSibling.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.previousSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.nextSibling.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+
+      break;
     }
     case "destroyer": {
+      gameBoardPlayer[row][col + 1] = 1;
+      gameBoardPlayer[row][col - 1] = 1;
+      gameBoardPlayer[row][col] = 1;
+      coordinate = parseInt(ev.target.id);
+      shipsPlayer[2].coordinate.push(coordinate - 10);
+      shipsPlayer[2].coordinate.push(coordinate);
+      shipsPlayer[2].coordinate.push(coordinate + 10);
+
       addColor();
-      ev.target.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.previousSibling.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.previousSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      break;
     }
     case "submarine": {
+      gameBoardPlayer[row][col + 1] = 1;
+      gameBoardPlayer[row][col - 1] = 1;
+      gameBoardPlayer[row][col] = 1;
+      coordinate = parseInt(ev.target.id);
+      shipsPlayer[3].coordinate.push(coordinate - 10);
+      shipsPlayer[3].coordinate.push(coordinate);
+      shipsPlayer[3].coordinate.push(coordinate + 10);
+
       addColor();
-      ev.target.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.previousSibling.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.previousSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      break;
     }
     case "patrolBoat": {
+      gameBoardPlayer[row][col + 1] = 1;
+      gameBoardPlayer[row][col] = 1;
+      coordinate = parseInt(ev.target.id);
+      shipsPlayer[4].coordinate.push(coordinate);
+      shipsPlayer[4].coordinate.push(coordinate + 10);
+
       addColor();
-      ev.target.appendChild(document.getElementById(data).cloneNode(true));
-      ev.target.nextSibling.appendChild(document.getElementById(data).cloneNode(true));
+      ev.target.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      ev.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+      break;
     }
     case deafult: {
     }
   }
+  dragShipType = "";
+  console.log(shipsPlayer);
 }
-console.log(data);
 
 //pobieranie ruszonego statku i dawanie mu listenera na dragdrop
 window.addEventListener("DOMContentLoaded", () => {
@@ -313,3 +416,4 @@ window.addEventListener("DOMContentLoaded", () => {
     el.addEventListener("dragstart", dragstart_handler);
   });
 });
+console.log(shipsComputer);
