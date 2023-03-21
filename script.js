@@ -132,7 +132,7 @@ function createAllShips() {
     }
   });
 }
-// createAllShips();
+createAllShips();
 function check(testArray) {
   test = [];
 
