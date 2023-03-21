@@ -1,24 +1,43 @@
 .border {
   border: solid;
-  height: 20px;
-  width: 20px;
+  height: 40px;
+  width: 40px;
+}
+main {
+  display: flex;
+  gap: 100px;
 }
 .container2 {
   display: flex;
+  justify-content: center;
 }
 
 .ship_container {
   background-color: rebeccapurple;
+  padding: 30px;
 }
 
 .dragover {
   background-color: blueviolet;
+  word-wrap: break-word;
 }
 .color {
   background-color: blueviolet;
+  word-wrap: break-word;
 }
 
 #board_container {
   display: flex;
   gap: 100px;
+  justify-content: space-evenly;
+}
+
+.headers {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 300px;
+}
+
+.dropzone {
+  word-break: break-all;
 }

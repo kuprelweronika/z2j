@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body class="container" id="cont">
+    <div>
+      <p>1. Rozpocznij grę od ustawienia swoich statków na planszy po prawej stronie.</p>
+      <p>2. Jezeli ustawiłeś wszystkie statki rozpocznij strzelanie na planszy komputera.</p>
+    </div>
+
     <main class="container2">
-      <div>
-        <p>1. Rozpocznij grę od ustawienia swoich statków na planszy po prawej stronie.</p>
-        <p>2. Jezeli ustawiłeś wszystkie statki rozpocznij strzelanie na planszy komputera.</p>
-      </div>
       <div id="board_container"></div>
       <div class="ship_container dropzone">
+        <h4>Your ships:</h4>
         <div id="carrier" class="ship" draggable="true">Carrier</div>
         <div id="battleship" class="ship" draggable="true">Battleship</div>
         <div id="destroyer" class="ship" draggable="true">Destroyer</div>
@@ -20,7 +22,6 @@
         <div id="patrolBoat" class="ship" draggable="true">PatrolBoat</div>
       </div>
     </main>
-
     <script src="script.js"></script>
   </body>
 </html>
