@@ -50,10 +50,29 @@ let bannedPlayer = {
 };
 banned = [];
 let dragShipType;
+let correctGenerate = false;
 tableCreate(1);
 tableCreate(2);
 createAllShips();
+checkProper();
+function checkProper() {
+  if (shipsComputer[0].coordinate.length !== 5 || shipsComputer[1].coordinate.length !== 4 || shipsComputer[2].coordinate.length !== 3 || shipsComputer[3].coordinate.length !== 3 || shipsComputer[4].coordinate.length !== 2) {
+    banned = [];
+    createAllShips();
+  } else {
+    correctGenerate = true;
+  }
+}
 
+if (correctGenerate) {
+  el = document.getElementById("check");
+  el.innerHTML = "Sukces";
+  el.style.color = "green";
+} else {
+  el = document.getElementById("check");
+  el.innerHTML = "Wymaga odświeżenia";
+  el.style.color = "red";
+}
 const cells = document.getElementsByTagName("td");
 for (var i = 0; i < cells.length / 2; i++) {
   cells[i].addEventListener("click", function () {
@@ -183,7 +202,7 @@ function mapToGameBoard(testArray, direction) {
     bannedComp.push(array);
     gameBoardComputer[row][col] = 1;
     el = document.getElementById(array);
-    // el.innerHTML = "X";
+    el.innerHTML = "X";
   });
 }
 
@@ -196,12 +215,15 @@ function createAllShips() {
       ship.coordinate = testArray;
       mapToGameBoard(testArray, direction);
     } else {
+      let testNo = 0;
+      let maxTries = 100;
       do {
-        //losuj liczbe startową i twórz statki tak długo
+        testNo++;
         [direction, coordinate] = generateFirstCordinateAndDirection();
         testArray = createShip(ship, coordinate, direction);
         //dopoki checkTestArray zwroci FALSE (czyli ze nie zawiera)
-      } while (!check(testArray, bannedComp));
+      } while (!check(testArray, bannedComp) && testNo < maxTries);
+
       // i jak zwroci te False to wtedy wpisz do coordinate
       if (check(testArray, bannedComp)) {
         ship.coordinate = testArray;
@@ -209,6 +231,7 @@ function createAllShips() {
       }
     }
   });
+  banned = [];
 }
 function check(testArray, banned) {
   test = [];

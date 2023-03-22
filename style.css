@@ -3,6 +3,10 @@
   height: 40px;
   width: 40px;
 }
+.check {
+  display: flex;
+  gap: 10px;
+}
 main {
   display: flex;
   gap: 100px;
