@@ -1,6 +1,7 @@
 function dragOverHandler(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = "move";
+
   if (e.target.classList.contains("dropzone")) {
     if (checkIfIsInBanned(dragShipType, e.target.id) && checkIfIsInBanned("arounds", e.target.id)) {
       switch (dragShipType) {

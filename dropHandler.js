@@ -16,10 +16,10 @@ function dropHorizontal(coordinate, type, position) {
 }
 
 function dropVertical(coordinate, type, position) {
-  row = parseInt(coordinate.slice(1, 2));
-  col = parseInt(coordinate.slice(2, 3)) + position;
+  row = parseInt(coordinate.slice(2, 3)) + position;
+  col = parseInt(coordinate.slice(1, 2));
   coordinate = parseInt(coordinate);
-  gameBoardPlayer[col][row] = 1;
+  gameBoardPlayer[row][col] = 1;
   shipsPlayer[type].coordinate.push(coordinate + position);
   bannedAround(parseInt(coordinate) + position);
   addColor();
@@ -135,5 +135,4 @@ function drop_handler(e) {
   }
 
   dragShipType = "";
-  console.log(shipsPlayer);
 }

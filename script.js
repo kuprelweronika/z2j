@@ -40,13 +40,22 @@ let gameBoardComputer = [
 ];
 
 let cellsBannedForComp = [];
-let cellsBannedForPlayer = {
+let cellsBannedForPlayerHor = {
   arounds: [],
   carrier: [200, 210, 201, 211, 202, 212, 203, 213, 204, 214, 205, 215, 206, 216, 207, 217, 208, 218, 209, 219, 280, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 281, 282, 283, 284, 285, 286, 287, 288, 289],
   battleship: [281, 282, 280, 283, 284, 285, 286, 287, 288, 289, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299],
   destroyer: [200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299],
   submarine: [200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299],
   patrolBoat: [290, 291, 292, 293, 294, 295, 296, 297, 298, 299],
+};
+
+let cellsBannedForPlayerVer = {
+  arounds: [],
+  carrier: [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 201, 211, 221, 231, 241, 251, 261, 271, 281, 291, 209, 219, 229, 239, 249, 259, 269, 289, 279, 299, 208, 218, 228, 238, 248, 258, 268, 278, 288, 289],
+  battleship: [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 209, 219, 229, 239, 249, 249, 259, 269, 279, 289, 299, 208, 218, 228, 238, 248, 258, 268, 278, 288, 298],
+  destroyer: [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 209, 219, 229, 239, 249, 249, 259, 269, 279, 289, 299],
+  submarine: [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 209, 219, 229, 239, 249, 249, 259, 269, 279, 289, 299],
+  patrolBoat: [209, 219, 229, 239, 249, 249, 259, 269, 279, 289, 299],
 };
 let cellsBannedForCreatingShips = [];
 let dragShipType;
@@ -57,7 +66,6 @@ createAllShips();
 
 function rotate() {
   if (directionUserShips === "horizontal") {
-    console.log("click");
     directionUserShips = "vertical";
   } else {
     directionUserShips = "horizontal";
@@ -211,7 +219,7 @@ function mapToGameBoard(testArray) {
     cellsBannedForComp.push(coordinate);
     gameBoardComputer[row][col] = 1;
     el = document.getElementById(coordinate);
-    el.innerHTML = "X";
+    // el.innerHTML = "X";
   });
 }
 
@@ -381,7 +389,12 @@ function win() {
 
 function checkIfIsInBanned(bannedType, targetId) {
   targetId = parseInt(targetId);
-  return !cellsBannedForPlayer[bannedType].includes(targetId);
+
+  if (directionUserShips === "horizontal") {
+    return !cellsBannedForPlayerHor[bannedType].includes(targetId);
+  } else if (directionUserShips === "vertical") {
+    return !cellsBannedForPlayerVer[bannedType].includes(targetId);
+  }
 }
 
 function bannedAround(target) {
@@ -390,7 +403,8 @@ function bannedAround(target) {
   let target2 = target - 1;
   let target3 = target + 10;
   let target4 = target - 10;
-  cellsBannedForPlayer.arounds.push(target, target1, target2, target3, target4);
+  cellsBannedForPlayerHor.arounds.push(target, target1, target2, target3, target4);
+  cellsBannedForPlayerVer.arounds.push(target, target1, target2, target3, target4);
 }
 
 function dragstart_handler(e) {
