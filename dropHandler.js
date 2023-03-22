@@ -5,6 +5,36 @@ function addColor() {
   }
 }
 
+function draggableFalse(type) {
+  switch (type) {
+    case 0: {
+      el = document.getElementById("carrier");
+      el.draggable = false;
+      break;
+    }
+    case 1: {
+      el = document.getElementById("battleship");
+      el.draggable = false;
+      break;
+    }
+    case 2: {
+      el = document.getElementById("destroyer");
+      el.draggable = false;
+      break;
+    }
+    case 3: {
+      el = document.getElementById("submarine");
+      el.draggable = false;
+      break;
+    }
+    case 4: {
+      el = document.getElementById("patrolBoat");
+      el.draggable = false;
+      break;
+    }
+  }
+}
+
 function dropHorizontal(coordinate, type, position) {
   coordinate = parseInt(coordinate);
   let row = Math.floor(coordinate / 100);
@@ -13,6 +43,7 @@ function dropHorizontal(coordinate, type, position) {
   shipsPlayer[type].coordinate.push(coordinate + position * 10);
   bannedAround(parseInt(coordinate) + position * 10);
   addColor();
+  draggableFalse(type);
 }
 
 function dropVertical(coordinate, type, position) {
@@ -25,6 +56,7 @@ function dropVertical(coordinate, type, position) {
   addColor();
   let el1 = document.getElementById(coordinate + position);
   el1.appendChild(document.getElementById(dragShipType));
+  draggableFalse(type);
 }
 
 function drop_handler(e) {
