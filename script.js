@@ -64,15 +64,6 @@ function checkProper() {
   }
 }
 
-if (correctGenerate) {
-  el = document.getElementById("check");
-  el.innerHTML = "Sukces";
-  el.style.color = "green";
-} else {
-  el = document.getElementById("check");
-  el.innerHTML = "Wymaga odświeżenia";
-  el.style.color = "red";
-}
 const cells = document.getElementsByTagName("td");
 for (var i = 0; i < cells.length / 2; i++) {
   cells[i].addEventListener("click", function () {
@@ -223,7 +214,7 @@ function mapToGameBoard(testArray, direction) {
     bannedComp.push(array);
     gameBoardComputer[row][col] = 1;
     el = document.getElementById(array);
-    el.innerHTML = "X";
+    // el.innerHTML = "X";
   });
 }
 
