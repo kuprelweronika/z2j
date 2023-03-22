@@ -96,8 +96,6 @@ function tableCreate(user) {
     for (let j = 0; j < 10; j++) {
       const td = tr.insertCell();
       td.id = user + j.toString() + i.toString();
-      td.setAttribute("ondrop", "drop_handler(event)");
-      td.setAttribute("ondragover", "dragover_handler(event)");
       if (user === 1) {
         td.setAttribute("attack", "attackPlayer(event)");
       }
@@ -106,6 +104,8 @@ function tableCreate(user) {
       td.style.height = "40px";
       if (user === 2) {
         td.classList.add("dropzone");
+        td.setAttribute("ondrop", "drop_handler(event)");
+        td.setAttribute("ondragover", "dragover_handler(event)");
       }
     }
   }
