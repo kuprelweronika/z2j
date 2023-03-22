@@ -52,13 +52,11 @@ banned = [];
 let dragShipType;
 tableCreate(1);
 tableCreate(2);
-// createAllShips();
+createAllShips();
 
 const cells = document.getElementsByTagName("td");
-console.log(cells);
 for (var i = 0; i < cells.length / 2; i++) {
   cells[i].addEventListener("click", function () {
-    console.log(cells[i + 100]);
     attackPlayer(event);
   });
 }
@@ -96,7 +94,9 @@ function tableCreate(user) {
       td.style.border = "1px solid black";
       td.style.width = "40px";
       td.style.height = "40px";
-      td.classList.add("dropzone");
+      if (user === 2) {
+        td.classList.add("dropzone");
+      }
     }
   }
   el = document.getElementById("board_container");
