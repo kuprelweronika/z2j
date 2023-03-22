@@ -168,11 +168,32 @@ function tableCreate(user) {
   el.appendChild(documentFragment);
 }
 
-function generateFirstCordinateAndDirection() {
-  numberR = Math.ceil(5 * Math.random()).toString();
-  numberC = Math.ceil(5 * Math.random()).toString();
-  coordinate = 1 + numberR + numberC;
+function generateFirstCordinateAndDirection(ship) {
   direction = Math.ceil(Math.random() * 2);
+  switch (ship.length) {
+    case 5: {
+      numberR = Math.ceil(5 * Math.random()).toString();
+      numberC = Math.ceil(5 * Math.random()).toString();
+      break;
+    }
+    case 4: {
+      numberR = Math.ceil(6 * Math.random()).toString();
+      numberC = Math.ceil(6 * Math.random()).toString();
+      break;
+    }
+    case 3: {
+      numberR = Math.ceil(7 * Math.random()).toString();
+      numberC = Math.ceil(7 * Math.random()).toString();
+      break;
+    }
+    case 2: {
+      numberR = Math.ceil(8 * Math.random()).toString();
+      numberC = Math.ceil(8 * Math.random()).toString();
+      break;
+    }
+  }
+
+  coordinate = 1 + numberR + numberC;
   return [direction, coordinate];
 }
 
@@ -210,7 +231,7 @@ function createAllShips() {
   shipsComputer.map((ship) => {
     //rysuje pierwszego
     if (bannedComp.length === 0) {
-      [direction, coordinate] = generateFirstCordinateAndDirection();
+      [direction, coordinate] = generateFirstCordinateAndDirection(ship);
       testArray = createShip(ship, coordinate, direction);
       ship.coordinate = testArray;
       mapToGameBoard(testArray, direction);
@@ -219,7 +240,7 @@ function createAllShips() {
       let maxTries = 100;
       do {
         testNo++;
-        [direction, coordinate] = generateFirstCordinateAndDirection();
+        [direction, coordinate] = generateFirstCordinateAndDirection(ship);
         testArray = createShip(ship, coordinate, direction);
         //dopoki checkTestArray zwroci FALSE (czyli ze nie zawiera)
       } while (!check(testArray, bannedComp) && testNo < maxTries);
