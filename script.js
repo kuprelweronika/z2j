@@ -54,12 +54,15 @@ tableCreate(1);
 tableCreate(2);
 // createAllShips();
 
-const cells = document.querySelectorAll("td");
-for (var i = 0; i < cells.length; i++) {
+const cells = document.getElementsByTagName("td");
+console.log(cells);
+for (var i = 0; i < cells.length / 2; i++) {
   cells[i].addEventListener("click", function () {
+    console.log(cells[i + 100]);
     attackPlayer(event);
   });
 }
+
 const squares = document.getElementsByTagName("td");
 for (i = 0; i < squares.length; i++) {
   squares[i].addEventListener("dragenter", dragOverHandler);
@@ -87,7 +90,9 @@ function tableCreate(user) {
       td.id = user + j.toString() + i.toString();
       td.setAttribute("ondrop", "drop_handler(event)");
       td.setAttribute("ondragover", "dragover_handler(event)");
-      td.setAttribute("attack", "attackPlayer(event)");
+      if (user === 1) {
+        td.setAttribute("attack", "attackPlayer(event)");
+      }
       td.style.border = "1px solid black";
       td.style.width = "40px";
       td.style.height = "40px";

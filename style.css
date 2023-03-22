@@ -13,16 +13,25 @@ main {
 }
 
 .ship_container {
-  background-color: rebeccapurple;
+  background-color: burlywood;
   padding: 30px;
+  width: 150px;
+  text-align: center;
+}
+#carrier,
+#battleship,
+#destroyer,
+#submarine,
+#patrolBoat {
+  padding-bottom: 20px;
 }
 
 .dragover {
-  background-color: blueviolet;
+  background-color: burlywood;
   word-wrap: break-word;
 }
 .color {
-  background-color: blueviolet;
+  background-color: burlywood;
   word-wrap: break-word;
 }
 
