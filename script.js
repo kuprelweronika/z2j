@@ -52,7 +52,7 @@ banned = [];
 let dragShipType;
 tableCreate(1);
 tableCreate(2);
-createAllShips();
+// createAllShips();
 
 const cells = document.querySelectorAll("td");
 for (var i = 0; i < cells.length; i++) {
@@ -367,6 +367,8 @@ function bannedAround(target) {
 }
 
 function dragOverHandler(e) {
+  e.dataTransfer.dropEffect = "move";
+
   data = bannedPlayer;
   if (e.target.classList.contains("dropzone")) {
     if (checkBanned(dragShipType, e.target.id) && checkBanned("arounds", e.target.id)) {
@@ -412,6 +414,8 @@ function dragOverHandler(e) {
 }
 
 function dragLeaveHandler(e) {
+  e.dataTransfer.dropEffect = "move";
+
   if (checkBanned(dragShipType, e.target.id) && checkBanned("arounds", e.target.id)) {
     switch (dragShipType) {
       case "carrier": {
@@ -446,8 +450,9 @@ function dragLeaveHandler(e) {
 }
 
 function dragover_handler(e) {
-  e.preventDefault();
   e.dataTransfer.dropEffect = "move";
+
+  e.preventDefault();
 }
 
 function addColor() {
@@ -459,12 +464,19 @@ function addColor() {
 
 function dragstart_handler(e) {
   // Add the target element's id to the data transfer object
-  e.dataTransfer.setData("text/plain", e.target.id);
+  e.dataTransfer.effectAllowed = "move";
+
   e.dataTransfer.dropEffect = "move";
+
+  e.dataTransfer.setData("text/plain", e.target.id);
   dragShipType = e.target.id;
 }
 function drop_handler(e) {
   e.preventDefault();
+  e.dataTransfer.effectAllowed = "move";
+
+  e.dataTransfer.dropEffect = "move";
+
   dragShipType = e.dataTransfer.getData("text/plain");
   var row = parseInt(e.target.id.substring(2, 3));
   var col = parseInt(e.target.id.substring(1, 2));
@@ -497,7 +509,14 @@ function drop_handler(e) {
         e.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
         e.target.previousSibling.previousSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
         e.target.nextSibling.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+        e.target.firstChild.id = "carrier_2";
+        e.target.previousSibling.firstChild.id = "carrier_2";
+        e.target.previousSibling.previousSibling.firstChild.id = "carrier_2";
+        e.target.nextSibling.firstChild.id = "carrier_2";
+        e.target.nextSibling.nextSibling.firstChild.id = "carrier_2";
 
+        ship = document.getElementById("carrier");
+        ship.setAttribute("draggable", false);
         break;
       }
       case "battleship": {
@@ -523,6 +542,14 @@ function drop_handler(e) {
         e.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
         e.target.nextSibling.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
 
+        e.target.firstChild.id = "battleship_2";
+        e.target.previousSibling.firstChild.id = "battleship_2";
+        e.target.nextSibling.firstChild.id = "battleship_2";
+        e.target.nextSibling.nextSibling.firstChild.id = "battleship_2";
+
+        ship = document.getElementById("battleship");
+        ship.setAttribute("draggable", false);
+
         break;
       }
       case "destroyer": {
@@ -543,6 +570,13 @@ function drop_handler(e) {
         e.target.appendChild(document.getElementById(dragShipType).cloneNode(true));
         e.target.previousSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
         e.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+        e.target.firstChild.id = "destroyer_2";
+        e.target.previousSibling.firstChild.id = "destroyer_2";
+        e.target.nextSibling.firstChild.id = "destroyer_2";
+
+        ship = document.getElementById("destroyer");
+        ship.setAttribute("draggable", false);
+
         break;
       }
       case "submarine": {
@@ -561,6 +595,14 @@ function drop_handler(e) {
         e.target.appendChild(document.getElementById(dragShipType).cloneNode(true));
         e.target.previousSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
         e.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+
+        e.target.firstChild.id = "subamrine_2";
+        e.target.previousSibling.firstChild.id = "submarine_2";
+        e.target.nextSibling.firstChild.id = "submarine_2";
+
+        ship = document.getElementById("submarine");
+        ship.setAttribute("draggable", false);
+
         break;
       }
       case "patrolBoat": {
@@ -576,6 +618,12 @@ function drop_handler(e) {
         addColor();
         e.target.appendChild(document.getElementById(dragShipType).cloneNode(true));
         e.target.nextSibling.appendChild(document.getElementById(dragShipType).cloneNode(true));
+        e.target.firstChild.id = "patrolboat";
+        e.target.nextSibling.firstChild.id = "patrolboat";
+
+        ship = document.getElementById("patrolBoat");
+        ship.setAttribute("draggable", false);
+
         break;
       }
       case deafult: {
