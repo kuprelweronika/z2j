@@ -49,7 +49,13 @@ let lastRowPlayerBoard = [209, 219, 229, 239, 249, 259, 269, 279, 289, 299];
 
 let cellsBannedForComp = [];
 let cellsBannedForPlayerHor = {
-  arounds: [],
+  arounds: {
+    carrier: [],
+    battleship: [],
+    destroyer: [],
+    submarine: [],
+    patrolBoat: [],
+  },
   carrier: [...firstColPlayerBoard, ...secondColPlayerBoard, ...lastColPlayerBoard, ...ninthColPlayerBoard],
   battleship: [...firstColPlayerBoard, ...ninthColPlayerBoard, ...lastColPlayerBoard],
   destroyer: [...firstColPlayerBoard, ...lastColPlayerBoard],
@@ -58,11 +64,17 @@ let cellsBannedForPlayerHor = {
 };
 
 let cellsBannedForPlayerVer = {
-  arounds: [],
+  arounds: {
+    carrier: [],
+    battleship: [],
+    destroyer: [],
+    submarine: [],
+    patrolBoat: [],
+  },
   carrier: [...firstRowPlayerBoard, ...secondRowPlayerBoard, ...ninthRowPlayerBoard, ...lastRowPlayerBoard],
   battleship: [...firstRowPlayerBoard, ...ninthRowPlayerBoard, ...lastRowPlayerBoard],
   destroyer: [...firstRowPlayerBoard, ...lastRowPlayerBoard],
-  sumbarine: [...firstRowPlayerBoard, ...lastRowPlayerBoard],
+  submarine: [...firstRowPlayerBoard, ...lastRowPlayerBoard],
   patrolBoat: [...lastRowPlayerBoard],
 };
 let cellsBannedForCreatingShips = [];
@@ -79,12 +91,8 @@ function rotate() {
     directionUserShips = "horizontal";
   }
 }
+
 const cellsUser = document.getElementsByTagName("td");
-for (let i = 0; i < cellsUser.length / 2; i++) {
-  cellsUser[i].addEventListener("click", function () {
-    attackPlayer(event);
-  });
-}
 
 const cellsComputer = document.getElementsByTagName("td");
 for (let i = 0; i < cellsComputer.length; i++) {
@@ -264,11 +272,19 @@ function isSunk() {
   shipsComputer.map((ship) => {
     if (ship.hit === ship.length) {
       ship.isSunk = true;
+      ship.coordinate.map((coord) => {
+        el = document.getElementById(coord);
+        el.style.backgroundColor = "red";
+      });
     }
   });
   shipsPlayer.map((ship) => {
     if (ship.hit === ship.length) {
       ship.isSunk = true;
+      ship.coordinate.map((coord) => {
+        el = document.getElementById(coord);
+        el.style.backgroundColor = "red";
+      });
     }
   });
 }
@@ -356,10 +372,13 @@ function attackPlayer(e) {
   var col = e.target.id.substring(2, 3);
   let clickCoordinate = parseInt(e.target.id);
 
+  el = document.getElementById(clickCoordinate);
+
   if (
     shipsComputer.some((ship) => {
       return ship.coordinate.includes(clickCoordinate);
-    })
+    }) &&
+    el.innerHTML !== "S"
   ) {
     shipsComputer.map((ship) => {
       if (ship.coordinate.includes(clickCoordinate)) {
@@ -372,7 +391,7 @@ function attackPlayer(e) {
     position.innerHTML = "S";
     isSunk();
     win();
-  } else {
+  } else if (el.innerHTML !== "S") {
     position = document.getElementById(clickCoordinate);
     position.innerHTML = "X";
   }
@@ -395,24 +414,102 @@ function win() {
   }
 }
 
-function checkIfIsInBanned(bannedType, targetId) {
+function checkIfIsInBanned(bannedType, type, targetId) {
   targetId = parseInt(targetId);
-
-  if (directionUserShips === "horizontal") {
-    return !cellsBannedForPlayerHor[bannedType].includes(targetId);
-  } else if (directionUserShips === "vertical") {
-    return !cellsBannedForPlayerVer[bannedType].includes(targetId);
+  if (bannedType === "arounds") {
+    switch (type) {
+      case "carrier": {
+        if (directionUserShips === "horizontal") {
+          return !cellsBannedForPlayerHor[bannedType].carrier.includes(targetId);
+        } else if (directionUserShips === "vertical") {
+          return !cellsBannedForPlayerVer[bannedType].carrier.includes(targetId);
+        }
+        break;
+      }
+      case "battleship": {
+        if (directionUserShips === "horizontal") {
+          return !cellsBannedForPlayerHor[bannedType].battleship.includes(targetId);
+        } else if (directionUserShips === "vertical") {
+          return !cellsBannedForPlayerVer[bannedType].battleship.includes(targetId);
+        }
+        break;
+      }
+      case "destroyer": {
+        if (directionUserShips === "horizontal") {
+          return !cellsBannedForPlayerHor[bannedType].destroyer.includes(targetId);
+        } else if (directionUserShips === "vertical") {
+          return !cellsBannedForPlayerVer[bannedType].destroyer.includes(targetId);
+        }
+        break;
+      }
+      case "submarine": {
+        if (directionUserShips === "horizontal") {
+          return !cellsBannedForPlayerHor[bannedType].submarine.includes(targetId);
+        } else if (directionUserShips === "vertical") {
+          return !cellsBannedForPlayerVer[bannedType].submarine.includes(targetId);
+        }
+        break;
+      }
+      case "patrolBoat": {
+        if (directionUserShips === "horizontal") {
+          return !cellsBannedForPlayerHor[bannedType].patrolBoat.includes(targetId);
+        } else if (directionUserShips === "vertical") {
+          return !cellsBannedForPlayerVer[bannedType].patrolBoat.includes(targetId);
+        }
+        break;
+      }
+    }
+  } else {
+    if (directionUserShips === "horizontal") {
+      return !cellsBannedForPlayerHor[bannedType].includes(targetId);
+    } else if (directionUserShips === "vertical") {
+      return !cellsBannedForPlayerVer[bannedType].includes(targetId);
+    }
   }
 }
 
 function bannedAround(target) {
   target = parseInt(target);
+
   let target1 = target + 1;
   let target2 = target - 1;
   let target3 = target + 10;
   let target4 = target - 10;
-  cellsBannedForPlayerHor.arounds.push(target, target1, target2, target3, target4);
-  cellsBannedForPlayerVer.arounds.push(target, target1, target2, target3, target4);
+  let target5 = target + 9;
+  let target6 = target - 9;
+  let target7 = target + 11;
+  let target8 = target - 11;
+  let target9 = target + 20;
+  let target10 = target - 20;
+  let target11 = target - 30;
+  let target12 = target + 8;
+  let target13 = target - 3;
+  let target14 = target - 12;
+  let target15 = target + 3;
+  let target16 = target + 2;
+  let target17 = target - 2;
+  let target18 = target + 30;
+  let target19 = target - 16;
+  let target20 = target - 22;
+  let target21 = target + 16;
+  let target22 = target + 21;
+  let target23 = target + 19;
+  let target24 = target - 19;
+  let target25 = target + 1;
+  let target26 = target - 8;
+  let target27 = target + 12;
+
+  cellsBannedForPlayerHor.arounds.carrier.push(target, target1, target2, target3, target4, target5, target6, target7, target8, target9, target10, target11, target18, target19, target20, target21, target22, target23, target24);
+  cellsBannedForPlayerHor.arounds.battleship.push(target, target1, target2, target3, target4, target5, target6, target7, target8, target9, target10, target11);
+  cellsBannedForPlayerHor.arounds.destroyer.push(target1, target, target1, target2, target3, target4, target5, target6, target7, target8, target9, target10);
+  cellsBannedForPlayerHor.arounds.submarine.push(target1, target, target1, target2, target3, target4, target5, target6, target7, target8, target9, target10);
+  cellsBannedForPlayerHor.arounds.patrolBoat.push(target, target1, target2, target3, target4, target10, target6, target8);
+
+  cellsBannedForPlayerVer.arounds.carrier.push(target, target2, target3, target4, target5, target6, target8, target12, target14, target17, target13, target15, target16, target25, target26, target7, target27);
+  cellsBannedForPlayerVer.arounds.battleship.push(target, target1, target2, target3, target4, target5, target6, target7, target8, target9, target10, target11, target12, target13, target14, target16);
+  cellsBannedForPlayerVer.arounds.destroyer.push(target, target1, target2, target3, target4, target5, target6, target7, target8, target9, target10, target11, target12, target16);
+  cellsBannedForPlayerVer.arounds.submarine.push(target, target1, target2, target3, target4, target5, target6, target7, target8, target9, target10, target11, target12, target16);
+  cellsBannedForPlayerVer.arounds.patrolBoat.push(target, target1, target2, target3, target4, target5, target8, target9, target10, target11, target17);
 }
 
 function dragstart_handler(e) {

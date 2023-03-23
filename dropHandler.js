@@ -36,9 +36,9 @@ function draggableFalse(type) {
 }
 
 function dropHorizontal(coordinate, type, position) {
+  row = parseInt(coordinate.slice(2, 3));
+  col = parseInt(coordinate.slice(1, 2)) + position;
   coordinate = parseInt(coordinate);
-  let row = Math.floor(coordinate / 100);
-  let col = (coordinate - 200) / 10;
   gameBoardPlayer[row][col + position] = 1;
   shipsPlayer[type].coordinate.push(coordinate + position * 10);
   bannedAround(parseInt(coordinate) + position * 10);
@@ -63,7 +63,7 @@ function drop_handler(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = "move";
   dragShipType = e.dataTransfer.getData("text/plain");
-  if (checkIfIsInBanned(dragShipType, e.target.id) && checkIfIsInBanned("arounds", e.target.id)) {
+  if (checkIfIsInBanned(dragShipType, dragShipType, e.target.id) && checkIfIsInBanned("arounds", dragShipType, e.target.id)) {
     switch (dragShipType) {
       case "carrier": {
         if (directionUserShips === "horizontal") {
@@ -72,7 +72,6 @@ function drop_handler(e) {
           dropHorizontal(e.target.id, 0, -1);
           dropHorizontal(e.target.id, 0, 2);
           dropHorizontal(e.target.id, 0, -2);
-          bannedAround(parseInt(e.target.id) - 30);
           e.target.appendChild(document.getElementById(dragShipType));
           e.target.previousSibling.appendChild(document.getElementById(dragShipType));
           e.target.nextSibling.appendChild(document.getElementById(dragShipType));
@@ -95,7 +94,6 @@ function drop_handler(e) {
           dropHorizontal(e.target.id, 1, 1);
           dropHorizontal(e.target.id, 1, -1);
           dropHorizontal(e.target.id, 1, 2);
-          bannedAround(parseInt(e.target.id) - 20);
           e.target.appendChild(document.getElementById(dragShipType));
           e.target.previousSibling.appendChild(document.getElementById(dragShipType));
           e.target.nextSibling.appendChild(document.getElementById(dragShipType));
@@ -115,7 +113,6 @@ function drop_handler(e) {
           dropHorizontal(e.target.id, 2, 0);
           dropHorizontal(e.target.id, 2, 1);
           dropHorizontal(e.target.id, 2, -1);
-          bannedAround(parseInt(e.target.id) - 20);
           e.target.appendChild(document.getElementById(dragShipType));
           e.target.previousSibling.appendChild(document.getElementById(dragShipType));
           e.target.nextSibling.appendChild(document.getElementById(dragShipType));
@@ -133,7 +130,6 @@ function drop_handler(e) {
           dropHorizontal(e.target.id, 3, 0);
           dropHorizontal(e.target.id, 3, 1);
           dropHorizontal(e.target.id, 3, -1);
-          bannedAround(parseInt(e.target.id) - 20);
 
           e.target.appendChild(document.getElementById(dragShipType));
           e.target.previousSibling.appendChild(document.getElementById(dragShipType));
@@ -165,6 +161,14 @@ function drop_handler(e) {
       }
     }
   }
-
+  for (let i = 0; i < cellsUser.length / 2; i++) {
+    if (shipsPlayer[0].coordinate.length === 5 && shipsPlayer[1].coordinate.length === 4 && shipsPlayer[2].coordinate.length === 3 && shipsPlayer[3].coordinate.length === 3 && shipsPlayer[4].coordinate.length === 2) {
+      cellsUser[i].addEventListener("click", function () {
+        attackPlayer(event);
+      });
+    }
+  }
   dragShipType = "";
+  // console.log(cellsBannedForPlayerHor.arounds.sort());
+  // console.log(cellsBannedForPlayerVer.arounds.sort());
 }

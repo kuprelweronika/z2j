@@ -3,7 +3,7 @@ function dragOverHandler(e) {
   e.dataTransfer.dropEffect = "move";
 
   if (e.target.classList.contains("dropzone")) {
-    if (checkIfIsInBanned(dragShipType, e.target.id) && checkIfIsInBanned("arounds", e.target.id)) {
+    if (checkIfIsInBanned(dragShipType, dragShipType, e.target.id) && checkIfIsInBanned("arounds", dragShipType, e.target.id)) {
       switch (dragShipType) {
         case "carrier": {
           if (directionUserShips === "horizontal") {
@@ -107,7 +107,7 @@ function dragOverHandler(e) {
 function dragLeaveHandler(e) {
   e.dataTransfer.dropEffect = "move";
 
-  if (checkIfIsInBanned(dragShipType, e.target.id) && checkIfIsInBanned("arounds", e.target.id)) {
+  if (checkIfIsInBanned(dragShipType, dragShipType, e.target.id) && checkIfIsInBanned("arounds", dragShipType, e.target.id)) {
     switch (dragShipType) {
       case "carrier": {
         if (directionUserShips === "horizontal") {
