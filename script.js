@@ -38,24 +38,32 @@ let gameBoardComputer = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
+let firstColPlayerBoard = [200, 201, 202, 203, 204, 205, 206, 207, 208, 209];
+let secondColPlayerBoard = [210, 211, 212, 213, 214, 215, 216, 217, 218, 219];
+let lastColPlayerBoard = [290, 291, 292, 293, 294, 295, 296, 297, 298, 299];
+let ninthColPlayerBoard = [280, 281, 282, 283, 284, 285, 286, 287, 288, 289];
+let firstRowPlayerBoard = [200, 210, 220, 230, 240, 250, 260, 270, 280, 290];
+let secondRowPlayerBoard = [201, 211, 221, 231, 241, 251, 261, 271, 281, 291];
+let ninthRowPlayerBoard = [208, 218, 228, 238, 248, 258, 268, 278, 288, 289];
+let lastRowPlayerBoard = [209, 219, 229, 239, 249, 259, 269, 279, 289, 299];
 
 let cellsBannedForComp = [];
 let cellsBannedForPlayerHor = {
   arounds: [],
-  carrier: [200, 210, 201, 211, 202, 212, 203, 213, 204, 214, 205, 215, 206, 216, 207, 217, 208, 218, 209, 219, 280, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 281, 282, 283, 284, 285, 286, 287, 288, 289],
-  battleship: [281, 282, 280, 283, 284, 285, 286, 287, 288, 289, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299],
-  destroyer: [200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299],
-  submarine: [200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299],
-  patrolBoat: [290, 291, 292, 293, 294, 295, 296, 297, 298, 299],
+  carrier: [...firstColPlayerBoard, ...secondColPlayerBoard, ...lastColPlayerBoard, ...ninthColPlayerBoard],
+  battleship: [...firstColPlayerBoard, ...ninthColPlayerBoard, ...lastColPlayerBoard],
+  destroyer: [...firstColPlayerBoard, ...lastColPlayerBoard],
+  submarine: [...firstColPlayerBoard, ...lastColPlayerBoard],
+  patrolBoat: [...lastColPlayerBoard],
 };
 
 let cellsBannedForPlayerVer = {
   arounds: [],
-  carrier: [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 201, 211, 221, 231, 241, 251, 261, 271, 281, 291, 209, 219, 229, 239, 249, 259, 269, 289, 279, 299, 208, 218, 228, 238, 248, 258, 268, 278, 288, 289],
-  battleship: [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 209, 219, 229, 239, 249, 249, 259, 269, 279, 289, 299, 208, 218, 228, 238, 248, 258, 268, 278, 288, 298],
-  destroyer: [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 209, 219, 229, 239, 249, 249, 259, 269, 279, 289, 299],
-  submarine: [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 209, 219, 229, 239, 249, 249, 259, 269, 279, 289, 299],
-  patrolBoat: [209, 219, 229, 239, 249, 249, 259, 269, 279, 289, 299],
+  carrier: [...firstRowPlayerBoard, ...secondRowPlayerBoard, ...ninthRowPlayerBoard, ...lastRowPlayerBoard],
+  battleship: [...firstRowPlayerBoard, ...ninthRowPlayerBoard, ...lastRowPlayerBoard],
+  destroyer: [...firstRowPlayerBoard, ...lastRowPlayerBoard],
+  sumbarine: [...firstRowPlayerBoard, ...lastRowPlayerBoard],
+  patrolBoat: [...lastRowPlayerBoard],
 };
 let cellsBannedForCreatingShips = [];
 let dragShipType;
